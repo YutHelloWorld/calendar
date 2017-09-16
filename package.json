@@ -1,0 +1,17 @@
+{
+  "name": "calendar",
+  "version": "1.0.0",
+  "description": "react calendar component",
+  "main": "index.js",
+  "repository": "git@github.com:YutHelloWorld/calendar.git",
+  "author": "Sven <sven@139.com>",
+  "license": "MIT",
+  "dependencies": {
+    "prop-type": "^0.0.1",
+    "react": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "eslint": "^4.7.0"
+  }
+}
