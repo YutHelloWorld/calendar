@@ -1,75 +1,94 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { convertDyadicArray, getDateList, dateFormat } from 'utils'
 import leftArrow from '../assets/arrow-l.png'
 import rightArrow from '../assets/arrow-r.png'
 
-import { getDateList, convertDyadicArray } from 'utils'
-
 export default class Calendar extends Component {
   static propTypes = {
+    selectCallback: PropTypes.func,
     startDate: PropTypes.string,
     endDate: PropTypes.string,
-    date: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    month: PropTypes.number.isRequired,
-    today: PropTypes.string.isRequired,
-    dateList: PropTypes.array.isRequired,
-    list: PropTypes.arrayOf(PropTypes.array.isRequired).isRequired,
-    selectDate: PropTypes.func.isRequired,
-    selectYear: PropTypes.func.isRequired,
-    selectMonth: PropTypes.func.isRequired,
-    fetchPosts: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+    selectCallback() {},
     startDate: '0', // '0' < '2013-08-01'
     endDate: '9', // '09' > '2021-02-01'
   }
 
+  constructor(props) {
+    super(props)
+    const now = new Date()
+    const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
+    const endDate = this.props.endDate !== '9'
+      ? this.props.endDate : dateFormat(yesterday)
+    const year = +endDate.slice(0, 4)
+    const month = +endDate.slice(5, 7)
+    const dateList = getDateList(year, month)
+    const list = convertDyadicArray(dateList, 6)
+    const activeDate = endDate
+    const today = dateFormat(now)
+
+    this.state = {
+      year,
+      month,
+      dateList,
+      activeDate,
+      today,
+      list,
+    }
+  }
+
   handlerIncreaseMonth = (e) => {
-    // 当月 new Date(this.props.year, this.props.month -1)
-    const { year, month, selectYear, selectMonth } = this.props
-    const nextMonth = new Date(year, month)
-    const _year = nextMonth.getFullYear()
-    const _month = nextMonth.getMonth() + 1
+    // 当月 new Date(this.state.year, this.state.month -1)
+    const nextMonth = new Date(this.state.year, this.state.month)
+    const year = nextMonth.getFullYear()
+    const month = nextMonth.getMonth() + 1
+    const dateList = getDateList(year, month)
+    const list = convertDyadicArray(dateList, 6)
     const el = e.target
 
     if (el.className.indexOf('icon-disable') === -1) {
-      selectYear(_year)
-      selectMonth(_month)
+      this.setState(prevState => ({ year, month, dateList, list }))
     }
   }
 
   handlerReduceMonth = (e) => {
-    const { year, month, selectYear, selectMonth } = this.props
-    const lastMonth = new Date(year, month - 2)
-    const _year = lastMonth.getFullYear()
-    const _month = lastMonth.getMonth() + 1
+    const lastMonth = new Date(this.state.year, this.state.month - 2)
+    const year = lastMonth.getFullYear()
+    const month = lastMonth.getMonth() + 1
+    const dateList = getDateList(year, month)
+    const list = convertDyadicArray(dateList, 6)
     const el = e.target
 
     if (el.className.indexOf('icon-disable') === -1) {
-      selectYear(_year)
-      selectMonth(_month)
+      this.setState(prevState => ({ year, month, dateList, list }))
     }
   }
 
   handlerSelectDate = (e) => {
     const el = e.target
-    const { selectDate, selectYear, selectMonth, fetchPosts } = this.props
     if (el.nodeName === 'SPAN' && el.className.indexOf('item-disable') === -1) {
-      const _date = el.getAttribute('data-date')
-      const _month = +_date.slice(5, 7)
-      const _year = +_date.slice(0, 4)
-      selectDate(_date)
-      selectYear(_year)
-      selectMonth(_month)
-      fetchPosts()
+      const activeDate = el.getAttribute('data-date')
+      const month = +activeDate.slice(5, 7)
+      const year = +activeDate.slice(0, 4)
+
+      if (this.state.activeDate !== activeDate) {
+        if (this.state.month !== month) {
+          const dateList = getDateList(year, month)
+          const list = convertDyadicArray(dateList, 6)
+          this.setState(prevState => ({ year, month, dateList, activeDate, list }))
+        } else {
+          this.setState((prevState) => ({ activeDate }))
+        }
+      }
     }
   }
 
   getClassName = (r, c) => {
-    const { year, month, today, dateList, date } = this.props
+    const { year, month, today, dateList, activeDate } = this.state
     let className
     const strYM = month < 10 ? `${year}-0${month}` : `${year}-${month}`
     const i = r * 7 + c
@@ -79,7 +98,7 @@ export default class Calendar extends Component {
       className = dateList[i] === today
         ? 'item-light item-today' : 'item-light'
     } else {
-      if (dateList[i] === date) {
+      if (dateList[i] === activeDate) {
         className = dateList[i] === today
           ? 'item-active item-today' : 'item-active'
       } else {
@@ -100,7 +119,7 @@ export default class Calendar extends Component {
     if (this.props.startDate !== '0') {
       startMonth = +this.props.startDate.slice(5, 7)
     }
-    return startMonth === this.props.month
+    return startMonth === this.state.month
       ? 'icon-left icon-disable' : 'icon-left'
   }
 
@@ -109,8 +128,20 @@ export default class Calendar extends Component {
     if (this.props.endDate !== '9') {
       endMonth = +this.props.endDate.slice(5, 7)
     }
-    return endMonth === this.props.month
+    return endMonth === this.state.month
       ? 'icon-right icon-disable' : 'icon-right'
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(this.state.year === nextState.year &&
+      this.state.month === nextState.month &&
+      this.state.activeDate === nextState.activeDate
+    )
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    prevState.activeDate !== this.state.activeDate &&
+    this.props.selectCallback(this.state.activeDate)
   }
 
   render() {
@@ -122,7 +153,7 @@ export default class Calendar extends Component {
             src={leftArrow}
             onClick={this.handlerReduceMonth}
           />
-          {`${this.props.year}年${this.props.month}月`}
+          {`${this.state.year}年${this.state.month}月`}
           <img
             className={this.getRightIconClass()}
             src={rightArrow}
@@ -140,7 +171,7 @@ export default class Calendar extends Component {
               <th>五</th>
               <th>六</th>
             </tr>
-            {this.props.list.map((arr, r) => {
+            {this.state.list.map((arr, r) => {
               return (<tr key={`row-${r}`}>
                 {arr.map((value, c) =>
                   (<td key={`col-${c}`}>

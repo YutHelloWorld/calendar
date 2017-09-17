@@ -62,3 +62,20 @@ export function convertDyadicArray(arr, row) {
   }
   return dyadicArray
 }
+
+/**
+ * 日期格式化 'YYYY-MM-DD'
+ * 
+ * @export
+ * @param {any} date 
+ * @returns 
+ */
+export function dateFormat(date) {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const monthStr = month < 10 ? `0${month}` : `${month}`
+  const dayStr = day < 10 ? `0${day}` : `${day}`
+
+  return `${year}-${monthStr}-${dayStr}`
+}
