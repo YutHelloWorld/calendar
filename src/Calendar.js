@@ -8,28 +8,26 @@ import './assets/calendar.scss'
 
 export default class Calendar extends Component {
   static propTypes = {
-    selectCallback: PropTypes.func,
-    startDate: PropTypes.string,
-    endDate: PropTypes.string,
+    onSelect: PropTypes.func,
+    minDate: PropTypes.string,
+    maxDate: PropTypes.string,
   }
 
   static defaultProps = {
-    selectCallback() {},
-    startDate: '0', // '0' < '2013-08-01'
-    endDate: '9', // '09' > '2021-02-01'
+    onSelect() {},
+    minDate: '0', // '0' < '2013-08-01'
+    maxDate: '9', // '09' > '2021-02-01'
   }
 
   constructor(props) {
     super(props)
     const now = new Date()
-    const endDate = this.props.endDate !== '9'
-      ? this.props.endDate : dateFormat(now)
-    const year = +endDate.slice(0, 4)
-    const month = +endDate.slice(5, 7)
+    const today = dateFormat(now)
+    const year = +today.slice(0, 4)
+    const month = +today.slice(5, 7)
     const dateList = getDateList(year, month)
     const list = convertDyadicArray(dateList, 6)
-    const activeDate = endDate
-    const today = dateFormat(now)
+    const activeDate = today
 
     this.state = {
       year,
@@ -41,31 +39,25 @@ export default class Calendar extends Component {
     }
   }
 
-  handlerIncreaseMonth = (e) => {
+  handlerIncreaseMonth = () => {
     // 当月 new Date(this.state.year, this.state.month -1)
     const nextMonth = new Date(this.state.year, this.state.month)
     const year = nextMonth.getFullYear()
     const month = nextMonth.getMonth() + 1
     const dateList = getDateList(year, month)
     const list = convertDyadicArray(dateList, 6)
-    const el = e.target
 
-    if (el.className.indexOf('icon-disable') === -1) {
-      this.setState(prevState => ({ year, month, dateList, list }))
-    }
+    this.setState(prevState => ({ year, month, dateList, list }))
   }
 
-  handlerReduceMonth = (e) => {
+  handlerReduceMonth = () => {
     const lastMonth = new Date(this.state.year, this.state.month - 2)
     const year = lastMonth.getFullYear()
     const month = lastMonth.getMonth() + 1
     const dateList = getDateList(year, month)
     const list = convertDyadicArray(dateList, 6)
-    const el = e.target
 
-    if (el.className.indexOf('icon-disable') === -1) {
-      this.setState(prevState => ({ year, month, dateList, list }))
-    }
+    this.setState(prevState => ({ year, month, dateList, list }))
   }
 
   handlerSelectDate = (e) => {
@@ -92,7 +84,7 @@ export default class Calendar extends Component {
     let className
     const strYM = month < 10 ? `${year}-0${month}` : `${year}-${month}`
     const i = r * 7 + c
-    const { startDate, endDate } = this.props
+    const { minDate, maxDate } = this.props
     const current = dateList[i]
     if (dateList[i].indexOf(strYM, 0) === -1) {
       className = dateList[i] === today
@@ -107,29 +99,11 @@ export default class Calendar extends Component {
       }
     }
 
-    if ((startDate > current) || (endDate < current)) {
+    if ((minDate > current) || (maxDate < current)) {
       className = dateList[i] === today ? 'item-disable item-today' : 'item-disable'
     }
 
     return className
-  }
-
-  getLeftIconClass = () => {
-    let startMonth = 0
-    if (this.props.startDate !== '0') {
-      startMonth = +this.props.startDate.slice(5, 7)
-    }
-    return startMonth === this.state.month
-      ? 'icon-left icon-disable' : 'icon-left'
-  }
-
-  getRightIconClass = () => {
-    let endMonth = 0
-    if (this.props.endDate !== '9') {
-      endMonth = +this.props.endDate.slice(5, 7)
-    }
-    return endMonth === this.state.month
-      ? 'icon-right icon-disable' : 'icon-right'
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -141,7 +115,7 @@ export default class Calendar extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     prevState.activeDate !== this.state.activeDate &&
-    this.props.selectCallback(this.state.activeDate)
+    this.props.onSelect(this.state.activeDate)
   }
 
   render() {
@@ -149,13 +123,13 @@ export default class Calendar extends Component {
       <div style={{ width: '275px', height: '362px', fontSize: '14px' }}>
         <div className="calendar-header">
           <img
-            className={this.getLeftIconClass()}
+            className="icon-left"
             src={leftArrow}
             onClick={this.handlerReduceMonth}
           />
           {`${this.state.year}年${this.state.month}月`}
           <img
-            className={this.getRightIconClass()}
+            className="icon-right"
             src={rightArrow}
             onClick={this.handlerIncreaseMonth}
           />

@@ -1,7 +1,7 @@
 {
   "name": "vortex-calendar",
   "version": "1.0.2",
-  "description": "react calendar component",
+  "description": "react calendar",
   "main": "index.js",
   "files": [
     "./index.js",
