@@ -1,6 +1,6 @@
 {
   "name": "vortex-calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "react calendar component",
   "main": "index.js",
   "files": [
@@ -18,8 +18,7 @@
   "homepage": "https://github.com/YutHelloWorld/calendar",
   "author": "Sven <sven@139.com>",
   "license": "MIT",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
