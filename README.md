@@ -35,6 +35,7 @@ import Calendar from 'vortex-calendar'
 import React from 'react'
 import {render} from 'react-dom'
 
+const MOUNT_NODE = document.getElementById('root')
 render(<Calendar
   minDate="2017-06-01"
   maxDate="2017-09-15"
