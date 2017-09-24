@@ -4,15 +4,25 @@ module.exports = {
   entry: path.join(__dirname, 'example', 'src', 'index.js'),
   output: {
     filename: 'bundle.js',
-    publicPath: ''
   },
   module: {
     rules: [
       { test: /\.js$/,
-        include: [
-          path.join(__dirname, 'example')
-        ],
-        use: 'babel-loader'
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                'env',
+                'react'
+              ],
+              plugins: [
+                'transform-class-properties'
+              ]
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpg|gif)$/,

@@ -11,12 +11,14 @@ export default class Calendar extends Component {
     onSelect: PropTypes.func,
     minDate: PropTypes.string,
     maxDate: PropTypes.string,
+    locale: PropTypes.string,
   }
 
   static defaultProps = {
     onSelect() {},
     minDate: '0', // '0' < '2013-08-01'
     maxDate: '9', // '09' > '2021-02-01'
+    locale: 'en'
   }
 
   constructor(props) {
@@ -119,6 +121,11 @@ export default class Calendar extends Component {
   }
 
   render() {
+    const { year, month, list } = this.state
+    const { locale } = this.props
+    const weekdays = locale === 'en' ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      : ['日', '一', '二', '三', '四', '五', '六']
+    const monthEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     return (
       <div style={{ width: '275px', height: '362px', fontSize: '14px' }}>
         <div className="calendar-header">
@@ -127,7 +134,10 @@ export default class Calendar extends Component {
             src={leftArrow}
             onClick={this.handlerReduceMonth}
           />
-          {`${this.state.year}年${this.state.month}月`}
+          {
+            locale === 'zh' ? `${year}年 ${month}月`
+              : `${monthEn[month - 1]} ${year}`
+          }
           <img
             className="icon-right"
             src={rightArrow}
@@ -137,15 +147,11 @@ export default class Calendar extends Component {
         <table className="calendar-table">
           <tbody onClick={this.handlerSelectDate}>
             <tr>
-              <th>日</th>
-              <th>一</th>
-              <th>二</th>
-              <th>三</th>
-              <th>四</th>
-              <th>五</th>
-              <th>六</th>
+              {
+                weekdays.map((w, i) => <th key={i} >{w}</th>)
+              }
             </tr>
-            {this.state.list.map((arr, r) => {
+            {list.map((arr, r) => {
               return (<tr key={`row-${r}`}>
                 {arr.map((value, c) =>
                   (<td key={`col-${c}`}>
