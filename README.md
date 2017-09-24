@@ -50,3 +50,4 @@ render(<Calendar
 |minDate|String ('YYYY-MM-DD')| | The minimum date that is selectable|
 |maxDate|String ('YYYY-MM-DD')| | The maximum date that is selectable|
 |onSelect|Function| | Callback invoked after select|
+|locale|String| 'en'| By default, calendar comes with the English locale.<br>You can set 'zh' for Chinese.|
