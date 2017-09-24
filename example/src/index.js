@@ -1,5 +1,5 @@
 import React from 'react'
-import Calendar from '../../lib/Calendar'
+import Calendar from '../../lib'
 import { render } from 'react-dom'
 
 import './main.scss'
