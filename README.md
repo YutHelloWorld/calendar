@@ -16,7 +16,7 @@
 [download-url]: https://npmjs.org/package/vortex-calendar
 [license-image]: https://img.shields.io/npm/l/vortex-calendar.svg
 
-A light calendar 📅
+A light calendar 📅 . Only 9KB.
 
 ![](./.Github/calendar.gif)
 

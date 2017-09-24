@@ -2,4 +2,4 @@ node_modules
 .vs-code/
 lib
 .idea/
-*.log
+yarn-error.log

@@ -15,12 +15,12 @@ Platform:
 
 npm manifest: 
   {
-    "name": "calendar",
-    "version": "1.0.0",
-    "description": "react calendar component",
+    "name": "vortex-calendar",
+    "version": "1.0.3",
+    "description": "react calendar",
     "main": "index.js",
     "files": [
-      "index.js",
+      "./index.js",
       "lib/"
     ],
     "scripts": {
@@ -34,8 +34,7 @@ npm manifest:
     "homepage": "https://github.com/YutHelloWorld/calendar",
     "author": "Sven <sven@139.com>",
     "license": "MIT",
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
       "babel-cli": "^6.26.0",
       "babel-core": "^6.26.0",
@@ -5482,7 +5481,7 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: https://registry.yarnpkg.com/calendar: You do not have permission to publish "calendar". Are you logged in as the correct user?
+  Error: https://registry.yarnpkg.com/vortex-calendar: You cannot publish over the previously published version 1.0.3.
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.0.1/libexec/lib/cli.js:60278:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.0.1/libexec/lib/cli.js:117324:22)
       at emitTwo (events.js:106:13)
