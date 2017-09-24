@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { convertDyadicArray, getDateList, dateFormat } from 'utils'
-import leftArrow from '../assets/arrow-l.png'
-import rightArrow from '../assets/arrow-r.png'
+import { convertDyadicArray, getDateList, dateFormat } from './utils'
+import leftArrow from './assets/arrow-l.png'
+import rightArrow from './assets/arrow-r.png'
+import './assets/calendar.scss'
 
 export default class Calendar extends Component {
   static propTypes = {
@@ -21,9 +22,8 @@ export default class Calendar extends Component {
   constructor(props) {
     super(props)
     const now = new Date()
-    const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
     const endDate = this.props.endDate !== '9'
-      ? this.props.endDate : dateFormat(yesterday)
+      ? this.props.endDate : dateFormat(now)
     const year = +endDate.slice(0, 4)
     const month = +endDate.slice(5, 7)
     const dateList = getDateList(year, month)
