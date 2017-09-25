@@ -54,18 +54,18 @@ render(<Calendar
 
 ## Contributing
 
-1. Clone this repository.
+- Clone this repository.
 
 ```bash
 git clone https://github.com/YutHelloWorld/calendar.git <your project name>
 cd <your project name>
 ```
 
-2. Install all dependencies by `yarn` or `npm i`.Then code in `./src`.
+- Install all dependencies by `yarn` or `npm i`.Then code in `./src`.
 
-3. Run `yarn build` && `yarn start` to see changes with demo.
+- Run `yarn build` && `yarn start` to see changes with demo.
 
-4. Pull your request.
+- Pull your request.
 
 ## License
 
