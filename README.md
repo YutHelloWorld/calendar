@@ -56,10 +56,10 @@ render(<Calendar
 
 - Clone this repository.
 
-```bash
-git clone https://github.com/YutHelloWorld/calendar.git <your project name>
-cd <your project name>
-```
+  ```bash
+  git clone https://github.com/YutHelloWorld/calendar.git <your project name>
+  cd <your project name>
+  ```
 
 - Install all dependencies by `yarn` or `npm i`.Then code in `./src`.
 
