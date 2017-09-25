@@ -16,7 +16,7 @@
 [download-url]: https://npmjs.org/package/vortex-calendar
 [license-image]: https://img.shields.io/npm/l/vortex-calendar.svg
 
-A light calendar 📅 . Only 9KB.
+A light calendar 📅 .
 
 ![](./.Github/calendar.gif)
 
@@ -38,7 +38,7 @@ import {render} from 'react-dom'
 const MOUNT_NODE = document.getElementById('root')
 render(<Calendar
   minDate="2017-06-01"
-  maxDate="2017-09-15"
+  locale="zh"
   onSelect={(v) => console.log(v)}
 />, MOUNT_NODE)
 ```
@@ -49,5 +49,5 @@ render(<Calendar
 |:---:|:---:|:---:|:---:|
 |minDate|String ('YYYY-MM-DD')| | The minimum date that is selectable|
 |maxDate|String ('YYYY-MM-DD')| | The maximum date that is selectable|
-|onSelect|Function| | Callback invoked after select|
+|onSelect|Function| | Callback invoked after date select|
 |locale|String| 'en'| By default, calendar comes with the English locale.<br>You can set 'zh' for Chinese.|

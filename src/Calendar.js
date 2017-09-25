@@ -66,6 +66,7 @@ export default class Calendar extends Component {
     const el = e.target
     if (el.nodeName === 'SPAN' && el.className.indexOf('item-disable') === -1) {
       const activeDate = el.getAttribute('data-date')
+      this.props.onSelect(activeDate)
       const month = +activeDate.slice(5, 7)
       const year = +activeDate.slice(0, 4)
 
@@ -113,11 +114,6 @@ export default class Calendar extends Component {
       this.state.month === nextState.month &&
       this.state.activeDate === nextState.activeDate
     )
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    prevState.activeDate !== this.state.activeDate &&
-    this.props.onSelect(this.state.activeDate)
   }
 
   render() {
