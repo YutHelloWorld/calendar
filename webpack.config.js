@@ -1,13 +1,13 @@
 const path = require('path')
 
 module.exports = {
-  entry: path.join(__dirname, 'example', 'src', 'index.js'),
+  entry: path.join(__dirname, 'example', 'src', 'index.jsx'),
   output: {
     filename: 'bundle.js',
   },
   module: {
     rules: [
-      { test: /\.js$/,
+      { test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: [
           {

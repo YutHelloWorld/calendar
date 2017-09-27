@@ -1,6 +1,6 @@
 {
   "name": "vortex-calendar",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "react calendar",
   "main": "lib/index.js",
   "files": [
@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "rimraf lib && babel src --out-dir lib --extensions .js --copy-files",
-    "lint": "eslint .",
+    "build": "rimraf lib && babel src --out-dir lib --extensions .js,.jsx --copy-files",
+    "lint": "eslint . --ext .js,.jsx",
     "lint:fix": "npm run lint -- --fix"
   },
   "repository": "git@github.com:YutHelloWorld/calendar.git",
@@ -39,8 +39,8 @@
     "file-loader": "^0.11.2",
     "node-sass": "^4.5.3",
     "prop-type": "^0.0.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.0.0",
+    "react-dom": "16.0.0",
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
@@ -48,12 +48,12 @@
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"
   },
-  "peerDependencies": {
-    "prop-type": "^0.0.1",
-    "react": "^15.6.1"
-  },
   "keywords": [
     "react",
     "calendar"
-  ]
+  ],
+  "peerDependencies": {
+    "prop-type": "^0.0.1",
+    "react": "*"
+  }
 }
