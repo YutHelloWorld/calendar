@@ -16,7 +16,7 @@
 [download-url]: https://npmjs.org/package/vortex-calendar
 [license-image]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
 [license-url]: https://github.com/YutHelloWorld/calendar/blob/master/LICENSE
-A light calendar 📅 .
+A light calendar 📅 . (gzipped: 2.45K)
 
 ![](./.Github/calendar.gif)
 

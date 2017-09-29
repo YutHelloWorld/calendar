@@ -3,26 +3,14 @@ const path = require('path')
 module.exports = {
   entry: path.join(__dirname, 'example', 'src', 'index.jsx'),
   output: {
+    path: '/dist',
     filename: 'bundle.js',
   },
   module: {
     rules: [
       { test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                'env',
-                'react'
-              ],
-              plugins: [
-                'transform-class-properties'
-              ]
-            }
-          }
-        ]
+        include: /node_modules/,
+        loader: 'babel-loader?cacheDirectory'
       },
       {
         test: /\.(png|jpg|gif)$/,
