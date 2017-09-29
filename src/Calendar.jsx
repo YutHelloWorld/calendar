@@ -123,7 +123,7 @@ export default class Calendar extends Component {
       : ['日', '一', '二', '三', '四', '五', '六']
     const monthEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     return (
-      <div style={{ width: '275px', height: '362px', fontSize: '14px' }}>
+      <div style={{ width: '279px', height: '362px', fontSize: '14px' }}>
         <div className="calendar-header">
           <img
             className="icon-left"

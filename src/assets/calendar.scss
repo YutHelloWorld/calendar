@@ -29,9 +29,12 @@
   }
 }
 .calendar-table {
-  width: 100%;
+  width: 277px;
   height: 318px;
   border-Radius: 0 0 6px 6px;
+  border: 1px solid #0af {
+    top: none
+  }
   background-color: #fff;
   font: {
     size: 12px;
@@ -41,6 +44,7 @@
   text-align: center;
   th {
     height: 44px;
+    text-align: center;
   }
   span {
     cursor: pointer;

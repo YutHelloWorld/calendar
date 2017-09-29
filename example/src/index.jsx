@@ -2,8 +2,6 @@ import React from 'react'
 import Calendar from '../../lib'
 import { render } from 'react-dom'
 
-import './main.scss'
-
 const MOUNT_NODE = document.getElementById('root')
 
 function App() {
