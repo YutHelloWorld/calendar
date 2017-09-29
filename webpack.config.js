@@ -1,11 +1,18 @@
 const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-module.exports = {
-  entry: path.join(__dirname, 'example', 'src', 'index.jsx'),
+const __DEV__ = process.env.NODE_ENV === 'development'
+const __PROD__ = process.env.NODE_ENV === 'production'
+
+const config = {
+  entry: './example/src/index.jsx',
   output: {
-    path: '/dist',
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    filename: __DEV__ ? 'bundle.js' : 'bundle.[chunkhash].js',
+    publicPath: __DEV__ ? '/' : '/calendar/'
   },
+  devtool: __DEV__ ? 'cheap-module-source-map' : 'source-map',
   module: {
     rules: [
       { test: /\.(js|jsx)$/,
@@ -31,8 +38,60 @@ module.exports = {
       }
     ]
   },
-  devServer: {
-    contentBase: path.join(__dirname, 'example'),
-    compress: true,
+  plugins: [
+    new webpack.DefinePlugin(Object.assign({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }))
+  ],
+  stats: {
+    colors: true,
+    modules: false,
   }
 }
+
+config.plugins.push(new HtmlWebpackPlugin({
+  template: path.resolve(__dirname, 'example', 'index.html'),
+  inject: true,
+  minify: {
+    collapseWhitespace: true,
+  },
+}))
+
+if (__DEV__) {
+  config.devServer = {
+    contentBase: path.resolve(__dirname, 'example'),
+    compress: true,
+    stats: {
+      colors: true,
+      modules: false,
+    }
+  }
+}
+
+if (__PROD__) {
+  config.plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false,
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: !!config.devtool,
+      comments: false,
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true,
+        drop_console: true,
+      },
+    })
+  )
+}
+
+module.exports = config
