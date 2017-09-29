@@ -6,7 +6,7 @@ const MOUNT_NODE = document.getElementById('root')
 
 function App() {
   return (
-    <div style={{ margin: '30px auto', width: '279px', height: '362px' }}>
+    <div style={{ margin: '30px auto', width: '279px', height: '355px' }}>
       <Calendar />
     </div>
   )
