@@ -38,6 +38,9 @@ const config = {
       }
     ]
   },
+  resolve: {
+    extensions: ['.js', '.json', '.jsx', '.scss'],
+  },
   plugins: [
     new webpack.DefinePlugin(Object.assign({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
