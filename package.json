@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
-    "build": "rimraf lib && babel src --out-dir lib --extensions .js,.jsx --copy-files",
-    "lint": "eslint . --ext .js,.jsx",
+    "build": "rimraf lib && babel src --out-dir lib --copy-files",
+    "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "preDeploy": "rimraf dist && cross-env NODE_ENV=production webpack",
     "analyze": "source-map-explorer dist/bundle.*.js",
