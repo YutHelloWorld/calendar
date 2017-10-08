@@ -6,7 +6,7 @@ const __DEV__ = process.env.NODE_ENV === 'development'
 const __PROD__ = process.env.NODE_ENV === 'production'
 
 const config = {
-  entry: './example/src/index.jsx',
+  entry: './example/src/index',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: __DEV__ ? 'bundle.js' : 'bundle.[chunkhash].js',
