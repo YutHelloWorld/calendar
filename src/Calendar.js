@@ -41,6 +41,13 @@ export default class Calendar extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(this.state.year === nextState.year &&
+      this.state.month === nextState.month &&
+      this.state.activeDate === nextState.activeDate
+    )
+  }
+
   handlerIncreaseMonth = () => {
     // 当月 new Date(this.state.year, this.state.month -1)
     const nextMonth = new Date(this.state.year, this.state.month)
@@ -49,7 +56,7 @@ export default class Calendar extends Component {
     const dateList = getDateList(year, month)
     const list = convertDyadicArray(dateList, 6)
 
-    this.setState(prevState => ({ year, month, dateList, list }))
+    this.setState({ year, month, dateList, list })
   }
 
   handlerReduceMonth = () => {
@@ -59,7 +66,7 @@ export default class Calendar extends Component {
     const dateList = getDateList(year, month)
     const list = convertDyadicArray(dateList, 6)
 
-    this.setState(prevState => ({ year, month, dateList, list }))
+    this.setState({ year, month, dateList, list })
   }
 
   handlerSelectDate = (e) => {
@@ -74,15 +81,15 @@ export default class Calendar extends Component {
         if (this.state.month !== month) {
           const dateList = getDateList(year, month)
           const list = convertDyadicArray(dateList, 6)
-          this.setState(prevState => ({ year, month, dateList, activeDate, list }))
+          this.setState({ year, month, dateList, activeDate, list })
         } else {
-          this.setState((prevState) => ({ activeDate }))
+          this.setState({ activeDate })
         }
       }
     }
   }
 
-  getClassName = (r, c) => {
+  getClassName(r, c) {
     const { year, month, today, dateList, activeDate } = this.state
     let className
     const strYM = month < 10 ? `${year}-0${month}` : `${year}-${month}`
@@ -109,61 +116,67 @@ export default class Calendar extends Component {
     return className
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return !(this.state.year === nextState.year &&
-      this.state.month === nextState.month &&
-      this.state.activeDate === nextState.activeDate
+  renderHeader() {
+    const { year, month } = this.state
+    const { locale } = this.props
+    const monthEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+    return (
+      <div className="calendar-header">
+        <img
+          className="icon-left"
+          src={leftArrow}
+          onClick={this.handlerReduceMonth}
+        />
+        {
+          locale === 'zh' ? `${year}年 ${month}月`
+            : `${monthEn[month - 1]} ${year}`
+        }
+        <img
+          className="icon-right"
+          src={rightArrow}
+          onClick={this.handlerIncreaseMonth}
+        />
+      </div>
+    )
+  }
+
+  renderTable() {
+    const weekdays = this.props.locale === 'en' ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      : ['日', '一', '二', '三', '四', '五', '六']
+    return (
+      <table className="calendar-table">
+        <tbody onClick={this.handlerSelectDate}>
+          <tr>
+            {
+              weekdays.map((w, i) => <th key={`header-${i}`} >{w}</th>)
+            }
+          </tr>
+          {this.state.list.map((arr, r) => {
+            return (<tr key={`row-${r}`}>
+              {arr.map((value, c) =>
+                (<td key={`col-${c}`}>
+                  <span
+                    data-date={value}
+                    className={this.getClassName(r, c)}
+                  >
+                    {value.slice(8)}
+                  </span>
+                </td>)
+              )}
+            </tr>
+            )
+          })}
+        </tbody>
+      </table>
     )
   }
 
   render() {
-    const { year, month, list } = this.state
-    const { locale } = this.props
-    const weekdays = locale === 'en' ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-      : ['日', '一', '二', '三', '四', '五', '六']
-    const monthEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     return (
       <div style={{ width: '277px', height: '355px', fontSize: '14px' }}>
-        <div className="calendar-header">
-          <img
-            className="icon-left"
-            src={leftArrow}
-            onClick={this.handlerReduceMonth}
-          />
-          {
-            locale === 'zh' ? `${year}年 ${month}月`
-              : `${monthEn[month - 1]} ${year}`
-          }
-          <img
-            className="icon-right"
-            src={rightArrow}
-            onClick={this.handlerIncreaseMonth}
-          />
-        </div>
-        <table className="calendar-table">
-          <tbody onClick={this.handlerSelectDate}>
-            <tr>
-              {
-                weekdays.map((w, i) => <th key={i} >{w}</th>)
-              }
-            </tr>
-            {list.map((arr, r) => {
-              return (<tr key={`row-${r}`}>
-                {arr.map((value, c) =>
-                  (<td key={`col-${c}`}>
-                    <span
-                      data-date={value}
-                      className={this.getClassName(r, c)}
-                    >
-                      {value.slice(8)}
-                    </span>
-                  </td>)
-                )}
-              </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        {this.renderHeader()}
+        {this.renderTable()}
       </div>
     )
   }
