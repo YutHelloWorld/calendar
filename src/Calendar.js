@@ -34,7 +34,6 @@ export default class Calendar extends Component {
     this.state = {
       year,
       month,
-      dateList,
       activeDate,
       today,
       list,
@@ -48,7 +47,7 @@ export default class Calendar extends Component {
     )
   }
 
-  handlerIncreaseMonth = () => {
+  handleIncreaseMonth = () => {
     // 当月 new Date(this.state.year, this.state.month -1)
     const nextMonth = new Date(this.state.year, this.state.month)
     const year = nextMonth.getFullYear()
@@ -56,20 +55,20 @@ export default class Calendar extends Component {
     const dateList = getDateList(year, month)
     const list = convertDyadicArray(dateList, 6)
 
-    this.setState({ year, month, dateList, list })
+    this.setState({ year, month, list })
   }
 
-  handlerReduceMonth = () => {
+  handleReduceMonth = () => {
     const lastMonth = new Date(this.state.year, this.state.month - 2)
     const year = lastMonth.getFullYear()
     const month = lastMonth.getMonth() + 1
     const dateList = getDateList(year, month)
     const list = convertDyadicArray(dateList, 6)
 
-    this.setState({ year, month, dateList, list })
+    this.setState({ year, month, list })
   }
 
-  handlerSelectDate = (e) => {
+  handleSelectDate = (e) => {
     const el = e.target
     if (el.nodeName === 'SPAN' && el.className.indexOf('item-disable') === -1) {
       const activeDate = el.getAttribute('data-date')
@@ -81,7 +80,7 @@ export default class Calendar extends Component {
         if (this.state.month !== month) {
           const dateList = getDateList(year, month)
           const list = convertDyadicArray(dateList, 6)
-          this.setState({ year, month, dateList, activeDate, list })
+          this.setState({ year, month, activeDate, list })
         } else {
           this.setState({ activeDate })
         }
@@ -89,28 +88,26 @@ export default class Calendar extends Component {
     }
   }
 
-  getClassName(r, c) {
-    const { year, month, today, dateList, activeDate } = this.state
+  getClassName(dateItem) {
+    const { year, month, today, activeDate } = this.state
     let className
     const strYM = month < 10 ? `${year}-0${month}` : `${year}-${month}`
-    const i = r * 7 + c
     const { minDate, maxDate } = this.props
-    const current = dateList[i]
-    if (dateList[i].indexOf(strYM, 0) === -1) {
-      className = dateList[i] === today
+    if (dateItem.indexOf(strYM, 0) === -1) {
+      className = dateItem === today
         ? 'item-light item-today' : 'item-light'
     } else {
-      if (dateList[i] === activeDate) {
-        className = dateList[i] === today
+      if (dateItem === activeDate) {
+        className = dateItem === today
           ? 'item-active item-today' : 'item-active'
       } else {
-        className = dateList[i] === today
+        className = dateItem === today
           ? 'item-today' : null
       }
     }
 
-    if ((minDate > current) || (maxDate < current)) {
-      className = dateList[i] === today ? 'item-disable item-today' : 'item-disable'
+    if ((minDate > dateItem) || (maxDate < dateItem)) {
+      className = dateItem === today ? 'item-disable item-today' : 'item-disable'
     }
 
     return className
@@ -126,7 +123,7 @@ export default class Calendar extends Component {
         <img
           className="icon-left"
           src={leftArrow}
-          onClick={this.handlerReduceMonth}
+          onClick={this.handleReduceMonth}
         />
         {
           locale === 'zh' ? `${year}年 ${month}月`
@@ -135,7 +132,7 @@ export default class Calendar extends Component {
         <img
           className="icon-right"
           src={rightArrow}
-          onClick={this.handlerIncreaseMonth}
+          onClick={this.handleIncreaseMonth}
         />
       </div>
     )
@@ -146,25 +143,26 @@ export default class Calendar extends Component {
       : ['日', '一', '二', '三', '四', '五', '六']
     return (
       <table className="calendar-table">
-        <tbody onClick={this.handlerSelectDate}>
+        <tbody onClick={this.handleSelectDate}>
           <tr>
             {
-              weekdays.map((w, i) => <th key={`header-${i}`} >{w}</th>)
+              weekdays.map((w, i) => <th key={w} >{w}</th>)
             }
           </tr>
-          {this.state.list.map((arr, r) => {
-            return (<tr key={`row-${r}`}>
-              {arr.map((value, c) =>
-                (<td key={`col-${c}`}>
-                  <span
-                    data-date={value}
-                    className={this.getClassName(r, c)}
-                  >
-                    {value.slice(8)}
-                  </span>
-                </td>)
-              )}
-            </tr>
+          {this.state.list.map(arr => {
+            return (
+              <tr key={arr[0]}>
+                {arr.map(value =>
+                  (<td key={value}>
+                    <span
+                      data-date={value}
+                      className={this.getClassName(value)}
+                    >
+                      {value.slice(8)}
+                    </span>
+                  </td>)
+                )}
+              </tr>
             )
           })}
         </tbody>
