@@ -17,7 +17,7 @@ function App() {
       height: '355px'
     }}
     >
-      <Calendar />
+      <Calendar minDate="2017-09-01" />
     </div>
   )
 }
