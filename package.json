@@ -13,9 +13,9 @@
     ]
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development",
+    "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "rimraf lib && babel src --out-dir lib --copy-files",
-    "preDeploy": "webpack --mode production",
+    "preDeploy": "webpack",
     "analyze": "source-map-explorer dist/0.bundle.5c3b.js",
     "deploy": "gh-pages -d dist",
     "precommit": "lint-staged"
@@ -35,6 +35,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^5.1.6",
     "css-loader": "^0.28.7",
     "eslint": "^4.7.0",
     "eslint-config-react-app": "^2.1.0",

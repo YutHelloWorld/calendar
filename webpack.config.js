@@ -3,14 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
-
+const __DEV__ = process.env.NODE_ENV === 'development';
 let config = {
+  mode: __DEV__ ? 'development' : 'production',
   entry: './example/src/index', // 入口文件
   output: {
     filename: 'bundle.[hash:4].js', // 添加hash可以防止文件缓存，每次都会生成4位的hash串
-    path: path.resolve('dist') // 打包后的目录，必须是绝对路径
+    path: path.resolve('dist'), // 打包后的目录，必须是绝对路径
+    publicPath: __DEV__ ? '/' : '/calendar/'
   },
-  devtool: 'source-map',
+  devtool: __DEV__ ? 'cheap-module-source-map' : 'source-map',
   optimization: {
     splitChunks: {
       cacheGroups: {
