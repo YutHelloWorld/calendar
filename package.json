@@ -7,7 +7,7 @@
     "lib/"
   ],
   "lint-staged": {
-    "example/**/*.{js,jsx,json,css}": [
+    "*.{js,jsx,json,css}": [
       "prettier --single-quote --write",
       "git add"
     ]
