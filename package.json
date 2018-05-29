@@ -15,11 +15,10 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "rimraf lib && babel src --out-dir lib --copy-files",
-    "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix",
     "preDeploy": "webpack --mode production",
     "analyze": "source-map-explorer dist/0.bundle.5c3b.js",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "precommit": "lint-staged"
   },
   "repository": "git@github.com:YutHelloWorld/calendar.git",
   "bugs": "https://github.com/YutHelloWorld/calendar/issues",
