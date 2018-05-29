@@ -17,8 +17,12 @@ function App() {
       height: '355px'
     }}
     >
-      <Calendar minDate="2017-09-01" />
+            <Calendar          />
     </div>
   )
 }
 render(<App />, MOUNT_NODE)
+if (module.hot) {
+  // 实现热更新
+  module.hot.accept();
+}
