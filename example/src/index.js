@@ -17,7 +17,7 @@ function App() {
       height: '355px'
     }}
     >
-            <Calendar          />
+            <Calendar               />
     </div>
   )
 }
