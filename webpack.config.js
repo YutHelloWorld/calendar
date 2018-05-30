@@ -93,7 +93,8 @@ config.plugins = [
       minifyCSS: true,
       minifyURLs: true
     },
-    chunksSortMode: 'dependency'
+    chunksSortMode: 'dependency',
+    favicon: 'public/favicon.ico'
   }),
   // // 拆分后会把 css 文件放到 dist 目录下的css/style.css
   new ExtractTextPlugin('css/style-[hash:4].css'),
