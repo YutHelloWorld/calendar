@@ -18,7 +18,7 @@ function App() {
         height: '355px'
       }}
     >
-      <Calendar locale="zh" />
+      <Calendar />
     </div>
   );
 }
