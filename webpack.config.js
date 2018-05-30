@@ -16,6 +16,9 @@ let config = {
   optimization: {
     splitChunks: {
       chunks: 'all'
+    },
+    runtimeChunk: {
+      name: 'manifest'
     }
   },
   resolve: {
@@ -96,7 +99,7 @@ config.plugins = [
     favicon: 'public/favicon.ico'
   }),
   // // 拆分后会把 css 文件放到 dist 目录下的css/style.css
-  new ExtractTextPlugin('css/style-[hash:4].css'),
+  new ExtractTextPlugin('css/style.[hash:4].css'),
   // 打包前先清空
   new CleanWebpackPlugin('dist'),
   // 热更新
