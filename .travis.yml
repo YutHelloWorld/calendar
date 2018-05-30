@@ -10,6 +10,7 @@ cache:
 
 script:
   - yarn add --force node-sass
+  -yarn build
   - yarn preDeploy
 
 deploy:
