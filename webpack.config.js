@@ -80,7 +80,6 @@ config.plugins = [
     // 用哪个html作为模板
     // 在 dist 目录下创建一个index.html页面当做模板来用
     template: './example/index.html',
-    hash: true, // 会在打包好的bundle.js 后面加上 hash串
     minify: {
       removeComments: true,
       collapseWhitespace: true,
