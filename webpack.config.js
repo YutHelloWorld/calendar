@@ -33,7 +33,15 @@ config.module = {
       use: ExtractTextPlugin.extract({
         // 将css用link的方式引入
         fallback: 'style-loader',
-        use: ['css-loader', 'sass-loader']
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          },
+          'sass-loader'
+        ]
       })
     },
     {
@@ -71,7 +79,20 @@ config.plugins = [
     // 用哪个html作为模板
     // 在 dist 目录下创建一个index.html页面当做模板来用
     template: './example/index.html',
-    hash: true // 会在打包好的bundle.js 后面加上 hash串
+    hash: true, // 会在打包好的bundle.js 后面加上 hash串
+    minify: {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      useShortDoctype: true,
+      removeEmptyAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      keepClosingSlash: true,
+      minifyJS: true,
+      minifyCSS: true,
+      minifyURLs: true
+    },
+    chunksSortMode: 'dependency'
   }),
   // // 拆分后会把 css 文件放到 dist 目录下的css/style.css
   new ExtractTextPlugin('css/style.css'),
