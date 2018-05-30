@@ -1,11 +1,22 @@
 {
   "plugins": [
-    "transform-class-properties"    
+    "transform-class-properties",
+    "syntax-dynamic-import",
+    ["transform-runtime", {
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": true
+    }]   
   ],
   "presets": [
     [
       "env",
       {
+        "targets": {
+          "ie": 9,
+          "uglify": true
+        },
+        "useBuiltIns": false,
         "modules": false
       }
     ],
