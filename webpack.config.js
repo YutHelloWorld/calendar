@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const __DEV__ = process.env.NODE_ENV === 'development';
 let config = {
   mode: __DEV__ ? 'development' : 'production',
@@ -95,11 +96,17 @@ config.plugins = [
     chunksSortMode: 'dependency'
   }),
   // // 拆分后会把 css 文件放到 dist 目录下的css/style.css
-  new ExtractTextPlugin('css/style.css'),
+  new ExtractTextPlugin('css/style-[hash:4].css'),
   // 打包前先清空
   new CleanWebpackPlugin('dist'),
   // 热更新
-  new webpack.HotModuleReplacementPlugin()
+  new webpack.HotModuleReplacementPlugin(),
+  new CopyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, 'public'),
+      to: path.resolve(__dirname, 'dist')
+    }
+  ])
 ];
 
 config.devServer = {
