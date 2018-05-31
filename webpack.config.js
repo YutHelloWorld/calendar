@@ -14,11 +14,10 @@ let config = {
     publicPath: __DEV__ ? '/' : '/calendar/'
   },
   optimization: {
+    // 异步加载和非异步加载都提取第三方库和公共组件
+    // 默认异步chunk优先级 > vendor， 例如prop-type在异步加载的‘a.js’, 那么不会提取到vendor, 而是保留在a
     splitChunks: {
       chunks: 'all'
-    },
-    runtimeChunk: {
-      name: 'manifest'
     }
   },
   resolve: {
